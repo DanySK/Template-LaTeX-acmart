@@ -27,8 +27,6 @@ jobs:
       - name: Cleanup the directory
         run: |
           rm acmart.zip
-          rm -r acmart-primary/*
-          rm -r acmart-primary/.*
       - name: Configure git
         run: |
           git config --global user.name "acmart-updater[bot]"
