@@ -1,4 +1,4 @@
-name: Build LaTeX and deploy on GitHub Releases
+name: Update acmart
 on:
   check_run:
   check_suite:
