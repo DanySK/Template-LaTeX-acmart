@@ -28,6 +28,7 @@ jobs:
           mv acmart-primary/* .
       - name: Cleanup the directory
         run: |
+          rm -rf acmart-primary
           rm acmart.zip
           git checkout HEAD -- renovate.json
       - name: Configure git
