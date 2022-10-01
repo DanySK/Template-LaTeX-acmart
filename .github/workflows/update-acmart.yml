@@ -6,10 +6,10 @@ on:
   push:
   workflow_dispatch:
 
-if: contains(github.repository, 'Template-LaTeX-acmart')
 
 jobs:
   update-acmart:
+    if: contains(github.repository, 'Template-LaTeX-acmart')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
