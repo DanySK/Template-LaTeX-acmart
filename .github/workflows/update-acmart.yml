@@ -21,7 +21,7 @@ jobs:
       - name: Cleanup the repository
         run: rm -rf *
       - name: Download the latest acmart
-        run: curl --retry 50 https://portalparts.acm.org/hippo/latex_templates/acmart-primary.zip --output acmart.zip
+        run: curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0" -sL --retry 50 'https://portalparts.acm.org/hippo/latex_templates/acmart-primary.zip' --output acmart.zip
       - name: Unzip the archive
         run: |
           7z x acmart.zip
