@@ -38,7 +38,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{acmart}
-[2022/08/27 v1.87 Typesetting articles for the Association for Computing Machinery]
+[2022/10/24 v1.88 Typesetting articles for the Association for Computing Machinery]
 \def\@classname{acmart}
 \InputIfFileExists{acmart-preload-hook.tex}{%
   \ClassWarning{\@classname}{%
@@ -1066,6 +1066,7 @@
 \newif\if@ACM@maketitle@typeset
 \@ACM@maketitle@typesetfalse
 \define@choicekey*+{ACM}{acmJournal}[\@journalCode\@journalCode@nr]{%
+  ACMJCSS,%
   CIE,%
   CSUR,%
   DGOV,%
@@ -1076,6 +1077,7 @@
   HEALTH,%
   IMWUT,%
   JACM,%
+  JATS,%
   JDIQ,%
   JDS,%
   JEA,%
@@ -1085,6 +1087,7 @@
   JRC,%
   PACMCGIT,%
   PACMHCI,%
+  PACMNET,%
   PACMPL,%
   POMACS,%
   TAAS,%
@@ -1122,6 +1125,7 @@
   TOPC,%
   TOPS,%
   TOPLAS,%
+  TORS,%
   TOS,%
   TOSEM,%
   TOSN,%
@@ -1134,7 +1138,11 @@
   FACMP%
 }{%
 \ifcase\@journalCode@nr
-\relax % CIE
+\relax % ACMJCSS
+  \def\@journalName{ACM Journal on Computing and Sustainable Societies}%
+  \def\@journalNameShort{ACM J. Comput. Sustain. Soc.}%
+  \def\@permissionCodeOne{2834-5533}%
+\or % CIE
   \def\@journalName{ACM Computers in Entertainment}%
   \def\@journalNameShort{ACM Comput. Entertain.}%
   \def\@permissionCodeOne{1544-3574}%
@@ -1162,6 +1170,7 @@
 \or % GAMES
   \def\@journalName{ACM Games: Research and Practice}%
   \def\@journalNameShort{ACM Games}%
+  \def\@permissionCodeOne{2832-5516}%
 \or % HEALTH
   \def\@journalName{ACM Transactions on Computing for Healthcare}%
   \def\@journalNameShort{ACM Trans. Comput. Healthcare}%
@@ -1177,6 +1186,10 @@
   \def\@journalName{Journal of the ACM}%
   \def\@journalNameShort{J. ACM}%
   \def\@permissionCodeOne{0004-5411}%
+\or % JATS
+  \def\@journalName{Journal on Autonomous Transportation Systems}%
+  \def\@journalNameShort{ACM J. Auton. Transport. Syst.}%
+  \def\@permissionCodeOne{2833-0528}%
 \or % JDIQ
   \def\@journalName{ACM Journal of Data and Information Quality}%
   \def\@journalNameShort{ACM J. Data Inform. Quality}%
@@ -1219,6 +1232,10 @@
   \def\@permissionCodeOne{2573-0142}%
   \@ACM@screentrue
   \PackageInfo{\@classname}{Using screen mode due to \@journalCode}%
+\or % PACMNET
+  \def\@journalName{Proceedings of the ACM on Networkng}%
+  \def\@journalNameShort{Proc. ACM Netw.}%
+  \def\@permissionCodeOne{2834-5509}%
 \or % PACMPL
   \def\@journalName{Proceedings of the ACM on Programming Languages}%
   \def\@journalNameShort{Proc. ACM Program. Lang.}%
@@ -1365,7 +1382,8 @@
 \or % TOPC
   \def\@journalName{ACM Transactions on Parallel Computing}%
   \def\@journalNameShort{ACM Trans. Parallel Comput.}%
-  \def\@permissionCodeOne{1539-9087}%
+  \def\@permissionCodeOne{2329-4949}%
+  \def\@permissionCodeTwo{2329-4957}%
 \or % TOPS
   \def\@journalName{ACM Transactions on Privacy and Security}%
   \def\@journalNameShort{ACM Trans. Priv. Sec.}%
@@ -1374,6 +1392,10 @@
   \def\@journalName{ACM Transactions on Programming Languages and Systems}%
   \def\@journalNameShort{ACM Trans. Program. Lang. Syst.}%
   \def\@permissionCodeOne{0164-0925}%
+\or % TORS
+  \def\@journalName{ACM Transactions on Recommender Systems}%
+  \def\@journalNameShort{ACM Trans. Recomm. Syst.}%
+  \def\@permissionCodeOne{2770-6699}%
 \or % TOS
   \def\@journalName{ACM Transactions on Storage}%
   \def\@journalNameShort{ACM Trans. Storage}%
@@ -2417,6 +2439,9 @@
       \raisebox{-.5\baselineskip}[\z@][\z@]{\href{\@acmBadgeL@url}{%
           \includegraphics[width=\@ACM@badge@width]{\@acmBadgeL@image}}}%
       \hskip\@ACM@badge@skip
+    \fi
+    \if@ACM@acmcp
+    \vspace*{108.5\p@}\par\noindent
     \fi
     \parbox[t]{\@ACM@title@width}{\raggedright
       \@titlefont\noindent
