@@ -30,6 +30,7 @@ jobs:
         run: |
           rm -rf acmart-primary
           rm acmart.zip
+          rm samples/sample-acmcp.tex
           git checkout HEAD -- renovate.json
       - name: Configure git
         run: |
