@@ -1,6 +1,6 @@
 % \iffalse
 %
-% Copyright 2016-2022, Association for Computing Machinery
+% Copyright 2016-2023, Association for Computing Machinery
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
 % version 1.3 of this license or (at your option) any
@@ -57,7 +57,7 @@
 % \ifx\currentjob\guide\OnlyDescription\fi
 % \GetFileInfo{acmart.dtx}
 % \title{\LaTeX{} Class for the \emph{Association for Computing
-% Machinery}\thanks{\copyright 2016--2022, Association for Computing Machinery}}
+% Machinery}\thanks{\copyright 2016--2023, Association for Computing Machinery}}
 % \author{Boris Veytsman\thanks{%
 % \href{mailto:borisv@lk.net}{\texttt{borisv@lk.net}},
 % \href{mailto:boris@varphi.com}{\texttt{boris@varphi.com}}}}
@@ -193,7 +193,8 @@
 % \begin{enumerate}
 % \item Run |latex acmart.ins|.  This will produce the file
 % |acmart.cls|
-% \item Put the files |acmart.cls| and |ACM-Reference-Format.bst|
+% \item Put the files |acmart.cls|, |acm-jdslogo.png|,
+%   and |ACM-Reference-Format.bst|
 %   in places where \LaTeX{} can find them (see \cite{TeXFAQ} or
 %   the documentation for your \TeX{} system).\label{item:install}
 % \item Update the database of file names.  Again, see \cite{TeXFAQ}
@@ -304,13 +305,13 @@
 %   manuscript & A manuscript. This is the default. \\
 %   acmsmall & Small single-column format.  Used for ACMJCSS, CIE, CSUR,
 %            DLT, FAC, GAMES, JACM, JATS,  JDIQ, JDS, JEA, JERIC,
-%            JETC, JRC, PACMCGIT, PACMHCI, PACMNET,
+%            JETC, JRC, PACMCGIT, PACMHCI, PACMMOD, PACMNET,
 %            PACMPL, TAAS, TACCESS, TACO,
 %            TALG, TALLIP (formerly TALIP), TCPS, TDS,
 %            TEAC, TECS, TELO, THRI, TIIS, TIOT, TISSEC, TIST, TKDD, TMIS,
 %            TOCE, TOCHI, TOCL,
 %            TOCS, TOCT, TODAES, TODS, TOIS, TOIT, TOMACS, TOMM (formerly
-%            TOMCCAP), TOMPECS, TOMS, TOPC, TOPLAS, TOPS, TORS
+%            TOMCCAP), TOMPECS, TOMS, TOPC, TOPLAS, TOPML, TOPS, TORS
 %            TOS, TOSEM, TOSN, TQC, TRETS,
 %            TSAS, TSC, TSLP and TWEB, including special issues. \\
 %   acmlarge  & Large single-column format.  Used for DTRAP, HEALTH,
@@ -916,16 +917,13 @@
 % string, as |\acmDOI{}|, suppresses the DOI.
 %
 %
-% \DescribeMacro{\acmBadgeR}%
-% \DescribeMacro{\acmBadgeL}%
+% \DescribeMacro{\acmBadge}%
 % Some conference articles get special distinctions, for example, the
 % artifact evaluation for PPoPP~2016
 % (see~\url{http://ctuning.org/ae/ppopp2016.html}).  These articles
 % display special badges supplied by the conference organizers.  This
-% class provides commands to add these badges:
-% \cs{acmBadgeR}\oarg{url}\marg{graphics} and
-% \cs{acmBadgeL}\oarg{url}\marg{graphics}.  The first command puts the
-% badge to the right of the title, and the second one---to the left.
+% class provides command to add these badges:
+% \cs{acmBadge}\oarg{url}\marg{graphics}.
 % The arguments have the following meaning: \oarg{url}, if provided,
 % sets the link to the badge authority in the screen version, while
 % \marg{graphics} sets the graphics file with the badge image.  The
@@ -935,7 +933,7 @@
 % \begin{verbatim}
 % \acmBadgeR[http://ctuning.org/ae/ppopp2016.html]{ae-logo}
 % \end{verbatim}
-%
+% The command can be repeated, if a paper has several badges.  
 %
 %
 % \DescribeMacro{\startPage}%
@@ -1015,7 +1013,7 @@
 % command are listed in Table~\ref{tab:setcopyright}.  This command
 % must be placed in the preamble, before |\begin{document}|.
 % Additional information about ACM copyright rules is discussed in
-% Section~\ref{ug_cc}.
+% Section~\ref{sec:ug_cc}.
 %
 % \begin{table}
 %   \centering
@@ -1279,7 +1277,8 @@
 % Ohio, USA, 43017-6221} 
 % \end{verbatim}
 % 
-%
+% The design of the cover page may require additional runs of latex to
+% make the elements of the page align.
 %
 %\subsection{Internationalization}
 %\label{sec:ug_i13n}
@@ -1913,6 +1912,35 @@
 %  \end{enumerate}
 %
 %
+%
+%\subsubsection{Manual bibliography}
+%\label{sec:ug_manual_bibliography}
+%
+% Some people create bibliographies manually, writing down
+% \cs{bibitem} commands explicitly.  This approach is \emph{not}
+% recommended for ACM styles.  The reason is, ACM submissions, besides
+% being typeset, are also processed by special programs that extract
+% metadata and references.  Bibliographies created automatically with
+% ACM styles contain customized macros for these programs, for
+% example,
+% \begin{verbatim}
+% \bibitem[Ablamowicz and Fauser(2007)]%
+%         {Ablamowicz07}
+% \bibfield{author}{\bibinfo{person}{Rafal Ablamowicz} {and}
+%   \bibinfo{person}{Bertfried Fauser}.} \bibinfo{year}{2007}\natexlab{}.
+% \newblock \bibinfo{booktitle}{\emph{CLIFFORD: a Maple 11 Package for Clifford
+%   Algebra Computations, version 11}}.
+% \newblock
+% \urldef\tempurl%
+% \url{http://math.tntech.edu/rafal/cliff11/index.html}
+% \showURL{%
+% Retrieved February 28, 2008 from \tempurl} 
+% \end{verbatim}
+%
+% Manual bibliographies without these macros may slow down the
+% publication process, and thus are not recommended for ACM
+% submissions. 
+%
 %\subsection{Other notable packages and typographic remarks}
 %\label{sec:ug_other}
 %
@@ -2116,6 +2144,7 @@
 %     PACMCGIT & Proceedings of the ACM on Computer Graphics and
 %     Interactive Techniques\\
 %     PACMHCI & PACM on Human-Computer Interaction\\
+%     PACMOD & PACM on Management of Data\\
 %     PACMNET & PACM on Networking\\
 %     PACMPL & PACM on Programming Languages \\
 %     POMACS & PACM on Measurement and Analysis of Computing Systems \\
@@ -2156,6 +2185,7 @@
 %     TOMS & ACM Transactions on Mathematical Software\\
 %     TOPC & ACM Transactions on Parallel Computing\\
 %     TOPLAS & ACM Transactions on Programming Languages and Systems\\
+%     TOPML & ransactions on Probabilistic Machine Learning\\
 %     TOPS & ACM Transactions on Privacy and Security\\
 %     TORS & ACM Transactions on Recommender Systems\\
 %     TOS & ACM Transactions on Storage\\
@@ -2239,7 +2269,7 @@
 \ProvidesFile{acmart.dtx}
 %</gobble>
 %<class>\ProvidesClass{acmart}
-[2022/10/24 v1.88 Typesetting articles for the Association for Computing Machinery]
+[2023/03/30 v1.90 Typesetting articles for the Association for Computing Machinery]
 %    \end{macrocode}
 %
 % \changes{v1.00}{2016/04/14}{First released version}
@@ -2893,14 +2923,23 @@
 %
 %
 % \changes{v1.87}{2022/08/14}{Added `framed' package for acmcp}
+% \changes{v1.89}{2022/12/25}{Added `zref-savepos' package for acmcp}
 %    \begin{macrocode}
 \if@ACM@acmcp
 \RequirePackage{framed}
+\RequirePackage{zref-savepos, zref-user}
 \fi
 %    \end{macrocode}
 % 
 %
-%
+% \begin{macro}{\@ACM@acmcp@delta}
+% \changes{v1.89}{2022/12/25}{Added dimen}
+% We need to store the dimen to store the insert length of amcp box
+%    \begin{macrocode}
+\newdimen\@ACM@acmcp@delta
+\@ACM@acmcp@delta=0pt\relax
+%    \end{macrocode}
+% \end{macro}
 %
 %\subsection{Citations}
 % \changes{v1.19}{2016/07/28}{Include 'References' in PDF bookmarks
@@ -4290,6 +4329,9 @@
 % \changes{1.88}{2022/10/19}{Added ISSN for GAMES}
 % \changes{1.88}{2022/10/23}{Added ISSN for ACMJCSS}
 % \changes{1.88}{2022/10/24}{Added PACMNET}
+% \changes{1.89}{2023/03/25}{Added PACMMOD}
+% \changes{1.89}{2023/03/25}{Added TOPML}
+% \changes{1.90}{2023/03/30}{Added TOPML eISSN}
 %
 % We use the |xkeyval| interface to define journal titles and the relevant
 % information
@@ -4316,6 +4358,7 @@
   JRC,%
   PACMCGIT,%
   PACMHCI,%
+  PACMMOD,%
   PACMNET,%
   PACMPL,%
   POMACS,%
@@ -4354,6 +4397,7 @@
   TOPC,%
   TOPS,%
   TOPLAS,%
+  TOPML,%
   TORS,%
   TOS,%
   TOSEM,%
@@ -4461,6 +4505,10 @@
   \def\@permissionCodeOne{2573-0142}%
   \@ACM@screentrue
   \PackageInfo{\@classname}{Using screen mode due to \@journalCode}%
+\or % PACMMOD
+  \def\@journalName{Proceedings of the ACM on Management of Data}%
+  \def\@journalNameShort{Proc. ACM Manag. Data}%
+  \def\@permissionCodeOne{2836-6573}%
 \or % PACMNET
   \def\@journalName{Proceedings of the ACM on Networkng}%
   \def\@journalNameShort{Proc. ACM Netw.}%
@@ -4621,6 +4669,10 @@
   \def\@journalName{ACM Transactions on Programming Languages and Systems}%
   \def\@journalNameShort{ACM Trans. Program. Lang. Syst.}%
   \def\@permissionCodeOne{0164-0925}%
+\or % TOPML
+  \def\@journalName{ACM Transactions on Probabilistic Machine Learning}%
+  \def\@journalNameShort{ACM Trans. Probab. Mach. Learn.}%
+  \def\@permissionCodeOne{2836-8924}%
 \or % TORS
   \def\@journalName{ACM Transactions on Recommender Systems}%
   \def\@journalNameShort{ACM Trans. Recomm. Syst.}%
@@ -5193,13 +5245,7 @@
 %
 % \begin{macro}{\if@ACM@badge}
 % \changes{v1.06}{2016/05/01}{Added macro}
-%   Whether to print a badge.  Note that either a left or right badge
-%   triggers it:
-%    \begin{macrocode}
-\newif\if@ACM@badge
-\@ACM@badgefalse
-%    \end{macrocode}
-%
+% \changes{v1.89}{2022/12/27}{Deleted macro}
 % \end{macro}
 %
 % \begin{macro}{\@ACM@badge@width}
@@ -5207,7 +5253,7 @@
 %   The width of the badge
 %    \begin{macrocode}
 \newlength\@ACM@badge@width
-\setlength\@ACM@badge@width{5pc}
+\setlength\@ACM@badge@width{3pc}
 %    \end{macrocode}
 %
 % \end{macro}
@@ -5215,7 +5261,7 @@
 %
 % \begin{macro}{\@ACM@title@width}
 % \changes{v1.06}{2016/05/01}{Added macro}
-%   The width of the badge
+%   The width of the title
 %    \begin{macrocode}
 \newlength\@ACM@title@width
 %    \end{macrocode}
@@ -5225,40 +5271,80 @@
 %
 % \begin{macro}{\@ACM@badge@skip}
 % \changes{v1.06}{2016/05/01}{Added macro}
-%   The space between the badge and the title
+% \changes{v1.89}{2022/12/27}{Redefined macro}
+%   The spacing between badges
 %    \begin{macrocode}
 \newlength\@ACM@badge@skip
-\setlength\@ACM@badge@skip{1pc}
+\setlength\@ACM@badge@skip{1pt}
 %    \end{macrocode}
 %
 % \end{macro}
 %
+% \begin{macro}{\@acmBadgeR}
+% \changes{v1.89}{2022/12/27}{Introduced macro}
+%    \begin{macrocode}
+\def\@acmBadgeR{}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@acmBadgeL}
+% \changes{v1.89}{2022/12/27}{Introduced macro}
+%    \begin{macrocode}
+\def\@acmBadgeL{}
+%    \end{macrocode}
+% \end{macro}
+% 
 % \begin{macro}{\acmBadgeR}
 % \changes{v1.06}{2016/05/01}{Added macro}
+% \changes{v1.89}{2022/12/27}{Redefined macro}
 %   Setting the right badge
 %    \begin{macrocode}
-\newcommand\acmBadgeR[2][]{\@ACM@badgetrue
-  \def\@acmBadgeR@url{#1}%
-  \def\@acmBadgeR@image{#2}}
-\def\@acmBadgeR@url{}
-\def\@acmBadgeR@image{}
+\newcommand\acmBadgeR[2][]{%
+  \ifx\@acmBadgeR\@empty
+    \gdef\@acmBadgeR{%
+      \smash{%
+        \raisebox{0.5\height}{%
+          \href{#1}{\includegraphics[width=\@ACM@badge@width]{#2}}}}}%
+  \else
+    \g@addto@macro{\@acmBadgeR}{%
+      \hspace{\@ACM@badge@skip}%
+      \smash{%
+        \raisebox{0.5\height}{%
+          \href{#1}{\includegraphics[width=\@ACM@badge@width]{#2}}}}}%
+  \fi}
 %    \end{macrocode}
 %
 % \end{macro}
 %
 % \begin{macro}{\acmBadgeL}
 % \changes{v1.06}{2016/05/01}{Added macro}
+% \changes{v1.89}{2022/12/27}{Redefined macro}
 %   Setting the left badge
 %    \begin{macrocode}
-\newcommand\acmBadgeL[2][]{\@ACM@badgetrue
-  \def\@acmBadgeL@url{#1}%
-  \def\@acmBadgeL@image{#2}}
-\def\@acmBadgeL@url{}
-\def\@acmBadgeL@image{}
+\newcommand\acmBadgeL[2][]{%
+  \ifx\@acmBadgeL\@empty
+    \gdef\@acmBadgeL{%
+      \smash{%
+        \raisebox{0.5\height}{%
+          \href{#1}{\includegraphics[width=\@ACM@badge@width]{#2}}}}}%
+  \else
+    \g@addto@macro{\@acmBadgeL}{%
+      \hspace{\@ACM@badge@skip}%
+      \smash{%
+        \raisebox{0.5\height}{%
+          \href{#1}{\includegraphics[width=\@ACM@badge@width]{#2}}}}}%
+  \fi}
 %    \end{macrocode}
 %
 % \end{macro}
 %
+% \begin{macro}{\acmBadge}
+% \changes{v1.89}{2023/01/07}{Added macro}
+% Just a syntax sugar for \cs{acmBadgeR}
+%    \begin{macrocode}
+\let\acmBadge=\acmBadgeR
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\startPage}
 %   The start page of the paper
@@ -5474,13 +5560,23 @@
  \ClassError{\@classname}{Article Type must be Research, Review,\MessageBreak
    Discussion, Invited, or Position}}
 \def\acmArticleType#1{\setkeys{ACM}{articletype=#1}}
-\newenvironment{@ACM@color@frame}{%
-  \def\FrameCommand{\hspace*{-6.5pc}%
-    \colorbox{@ACM@Article@color!10!white}}%
-  \MakeFramed {\advance\hsize -6.5pc\relax\FrameRestore}}{\endMakeFramed}
 \if@ACM@acmcp
 \acmArticleType{Research}%
 \fi
+ %    \end{macrocode}
+% 
+% \end{macro}
+% \begin{macro}{\@ACM@color@frame}
+% \changes{v1.87}{2022/08/13}{Introduced macro}
+% \changes{v1.89}{2022/12/25}{Added saving the position of the bottom}
+% The colored frame for the acmcp
+%    \begin{macrocode}
+\newenvironment{@ACM@color@frame}{%
+  \def\FrameCommand{\hspace*{-6.5pc}%
+    \colorbox{@ACM@Article@color!10!white}}%
+  \MakeFramed {\advance\hsize
+    -6.5pc\relax\FrameRestore}}{\zsaveposy{@ACM@acmcpframe@y}%
+  \endMakeFramed}
 %    \end{macrocode}
 % 
 % \end{macro}
@@ -6296,24 +6392,38 @@
 %
 % \begin{macro}{\set@ACM@acmcpbox}
 % \changes{v1.87}{2022/08/14}{Added macro}
+% \changes{v1.89}{2022/12/25}{Added logo}
+% \changes{v1.89}{2022/12/25}{Added zref position of the bottom}
 % Setting infobox for acmcp
 %    \begin{macrocode}
 \newbox\@ACM@acmcpbox
 \def\set@ACM@acmcpbox{%
   \bgroup
   \hsize=5pc
-  \global\setbox\@ACM@acmcpbox=\vtop to \textheight{%
+  \global\setbox\@ACM@acmcpbox=\vbox{%
     \setlength{\parindent}{\z@}%
-    {\Large LOGO\par}%
+    {\includegraphics[width=\hsize]{acm-jdslogo}\par}%
     \scriptsize
-    \vfill
-    \ifx\@acmCodeDataLink\@empty\else
-    Code and data links:\\ \@acmCodeDataLink\par\vfill
+    \ifnum\getrefnumber{TotPages}>1\else
+      \zrefused{@ACM@acmcpbox@y}%
+      \zrefused{@ACM@acmcpframe@y}%
+      \@tempdima=\dimexpr\zposy{@ACM@acmcpbox@y}sp -
+      \zposy{@ACM@acmcpframe@y}sp+0.3\FrameSep+
+      \@ACM@acmcp@delta\relax
+      \ifdim\@tempdima>0pt\relax         
+         \vspace*{\@tempdima}%
+         \protected@write\@auxout{}%
+         {\string\global\@ACM@acmcp@delta=\the\@tempdima\relax}%
+      \fi
     \fi
-    \ifx\@keywords\@empty\else Keywords:
-    \@keywords\par\vfill
+    \ifx\@acmCodeDataLink\@empty\else\bigskip
+    Code and data links:\\ \@acmCodeDataLink\par\bigskip
     \fi
-    \ifx\@empty\@authorsaddresses\else\@setauthorsaddresses\vfill\fi
+    \ifx\@keywords\@empty\else\bigskip
+      Keywords: \@keywords\par
+    \fi
+    \ifx\@empty\@authorsaddresses\else\bigskip\@setauthorsaddresses\fi
+    \zsaveposy{@ACM@acmcpbox@y}%
   }
 \egroup}
 %    \end{macrocode}
@@ -6371,9 +6481,9 @@
 % \changes{v1.46}{2017/08/29}{Deleted rule}
 % \changes{v1.78}{2021/05/16}{Added processing the overflowing title box}
 % \changes{1.85}{2022/05/08}{Added: acmengage}
+% \changes{1.89}{2022/12/27}{Moved badges to top header}
 % The printing of top matter starts a new page and uses the given
-%   title box.  Note that for |sigchi-a| we print badges here rather
-%   than in \cs{mktitle} since we want them in the margins.
+%   title box.  
 %
 % Note that if there are too many authors, |\mktitle@bx| might
 % overflow the page.  Therefore we start with checking this and if
@@ -6418,18 +6528,6 @@
     \twocolumn[\box\mktitle@bx]%
   \or % sigchi-a
     \par\box\mktitle@bx\par\bigskip
-    \if@ACM@badge
-       \marginpar{\noindent
-         \ifx\@acmBadgeL@image\@empty\else
-           \href{\@acmBadgeL@url}{%
-             \includegraphics[width=\@ACM@badge@width]{\@acmBadgeL@image}}%
-            \hskip\@ACM@badge@skip
-          \fi
-         \ifx\@acmBadgeR@image\@empty\else
-           \href{\@acmBadgeR@url}{%
-             \includegraphics[width=\@ACM@badge@width]{\@acmBadgeR@image}}%
-          \fi}%
-    \fi
   \or % acmengage
     \twocolumn[\box\mktitle@bx]%
   \or % acmcp
@@ -6552,6 +6650,8 @@
 % \cs{translatedsubtitle}}
 % \changes{v1.87}{2022/08/14}{Special treatment for acmcp}
 % \changes{v1.88}{2022/10/24}{Moved down title for acmcp}
+% \changes{v1.89}{2022/12/27}{Moved badges to top header}
+% \changes{v1.89}{2023/01/07}{Moved up acmcp title}
 %   The version of \cs{mktitle} for most journals
 %    \begin{macrocode}
 \def\@mktitle@i{\hsize=\textwidth
@@ -6559,34 +6659,13 @@
     \advance\hsize by -6pc%
   \fi
   \@ACM@title@width=\hsize
-  \ifx\@acmBadgeL@image\@empty\else
-    \advance\@ACM@title@width by -\@ACM@badge@width
-    \advance\@ACM@title@width by -\@ACM@badge@skip
-  \fi
-  \ifx\@acmBadgeR@image\@empty\else
-    \advance\@ACM@title@width by -\@ACM@badge@width
-    \advance\@ACM@title@width by -\@ACM@badge@skip
-  \fi
   \setbox\mktitle@bx=\vbox{\noindent\@titlefont
-    \ifx\@acmBadgeL@image\@empty\else
-      \raisebox{-.5\baselineskip}[\z@][\z@]{\href{\@acmBadgeL@url}{%
-          \includegraphics[width=\@ACM@badge@width]{\@acmBadgeL@image}}}%
-      \hskip\@ACM@badge@skip
-    \fi
-    \if@ACM@acmcp
-    \vspace*{108.5\p@}\par\noindent
-    \fi
     \parbox[t]{\@ACM@title@width}{\raggedright
       \@titlefont\noindent
       \@title\@translatedtitle%
   \ifx\@subtitle\@empty\else
     \par\noindent{\@subtitlefont\@subtitle\@translatedsubtitle}%
   \fi}%
-  \ifx\@acmBadgeR@image\@empty\else
-    \hskip\@ACM@badge@skip
-    \raisebox{-.5\baselineskip}[\z@][\z@]{\href{\@acmBadgeR@url}{%
-        \includegraphics[width=\@ACM@badge@width]{\@acmBadgeR@image}}}%
-  \fi
   \par\bigskip}}%
 %    \end{macrocode}
 %
@@ -6604,37 +6683,18 @@
 % \changes{v1.06}{2016/05/01}{Added processing badges}
 % \changes{v1.83}{2022/02/20}{Added \cs{translatedtitle} and
 % \cs{translatedsubtitle}} 
-%   The version of \cs{@mktitle} for SIG proceedings.  Note that since
-%   the title is centered, we leave space for the left badge even if
-%   only the right badge is defined.
+% \changes{v1.89}{2022/12/27}{Moved badges to top header}
+%   The version of \cs{@mktitle} for SIG proceedings.  
 %    \begin{macrocode}
 \def\@mktitle@iii{\hsize=\textwidth
     \setbox\mktitle@bx=\vbox{\@titlefont\centering
       \@ACM@title@width=\hsize
-      \if@ACM@badge
-        \advance\@ACM@title@width by -2\@ACM@badge@width
-        \advance\@ACM@title@width by -2\@ACM@badge@skip
-        \parbox[b]{\@ACM@badge@width}{\strut
-          \ifx\@acmBadgeL@image\@empty\else
-            \raisebox{-.5\baselineskip}[\z@][\z@]{\href{\@acmBadgeL@url}{%
-                \includegraphics[width=\@ACM@badge@width]{\@acmBadgeL@image}}}%
-          \fi}%
-        \hskip\@ACM@badge@skip
-      \fi
       \parbox[t]{\@ACM@title@width}{\centering\@titlefont
         \@title\@translatedtitle%
         \ifx\@subtitle\@empty\else
           \par\noindent{\@subtitlefont\@subtitle\@translatedsubtitle}
         \fi
       }%
-      \if@ACM@badge
-        \hskip\@ACM@badge@skip
-        \parbox[b]{\@ACM@badge@width}{\strut
-          \ifx\@acmBadgeR@image\@empty\else
-            \raisebox{-.5\baselineskip}[\z@][\z@]{\href{\@acmBadgeR@url}{%
-                \includegraphics[width=\@ACM@badge@width]{\@acmBadgeR@image}}}%
-          \fi}%
-      \fi
       \par\bigskip}}%
 %    \end{macrocode}
 %
@@ -7809,6 +7869,7 @@
 % journal format}
 % \changes{v1.59}{2019/04/20}{Moved page styles to \cs{AtBeginDocument}}
 % \changes{v1.87}{2022/08/14}{Special treatment for acmcp}
+% \changes{v1.89}{2022/12/27}{Moved badges here}
 %   The page style for the first page only.
 %    \begin{macrocode}
 \AtBeginDocument{%
@@ -7819,7 +7880,8 @@
   \if@ACM@journal@bibstrip
     \ifcase\ACM@format@nr
     \relax % manuscript
-      \fancyhead[L]{\ACM@linecountL}%
+      \fancyhead[L]{\ACM@linecountL\@acmBadgeL}%
+      \fancyhead[R]{\@acmBadgeR}%
       \fancyfoot[RO,LE]{\if@ACM@printfolios\small\thepage\fi}%
       \if@ACM@nonacm\else%
         \fancyfoot[RE,LO]{\footnotesize Manuscript submitted to ACM}%
@@ -7830,9 +7892,10 @@
         \@acmNumber, Article \@acmArticle.  Publication date:
         \@acmPubDate.}%
       \fi%
-      \fancyhead[LE]{\ACM@linecountL\@folioblob}%
-      \fancyhead[LO]{\ACM@linecountL}%
-      \fancyhead[RO]{\@folioblob}%
+      \fancyhead[LE]{\ACM@linecountL\@folioblob\@acmBadgeL}%
+      \fancyhead[LO]{\ACM@linecountL\@acmBadgeL}%
+      \fancyhead[RO]{\@acmBadgeR\@folioblob}%
+      \fancyhead[RE]{\@acmBadgeR}%
       \fancyheadoffset[RO,LE]{0.6\@folio@wd}%
     \or % acmlarge
       \if@ACM@nonacm\else%
@@ -7840,9 +7903,10 @@
         \@acmNumber, Article \@acmArticle.  Publication date:
         \@acmPubDate.}%
       \fi%
-      \fancyhead[RO]{\@folioblob}%
-      \fancyhead[LE]{\ACM@linecountL\@folioblob}%
-      \fancyhead[LO]{\ACM@linecountL}%
+      \fancyhead[RO]{\@acmBadgeR\@folioblob}%
+      \fancyhead[RE]{\@acmBadgeR}%
+      \fancyhead[LE]{\ACM@linecountL\@folioblob\@acmBadgeL}%
+      \fancyhead[LO]{\ACM@linecountL\@acmBadgeL}%
       \fancyheadoffset[RO,LE]{1.4\@folio@wd}%
     \or % acmtog
       \if@ACM@nonacm\else%
@@ -7850,16 +7914,16 @@
         \@acmNumber, Article \@acmArticle.  Publication date:
         \@acmPubDate.}%
       \fi%
-      \fancyhead[L]{\ACM@linecountL}%
-      \fancyhead[R]{\ACM@linecountR}%
+      \fancyhead[L]{\ACM@linecountL\@acmBadgeL}%
+      \fancyhead[R]{\@acmBadgeR\ACM@linecountR}%
     \else % Conference proceedings
-      \fancyhead[L]{\ACM@linecountL}%
-      \fancyhead[R]{\ACM@linecountR}%
+      \fancyhead[L]{\ACM@linecountL\@acmBadgeL}%
+      \fancyhead[R]{\@acmBadgeR\ACM@linecountR}%
       \fancyfoot[C]{\if@ACM@printfolios\footnotesize\thepage\fi}%
     \fi
   \else
-    \fancyhead[L]{\ACM@linecountL}%
-    \fancyhead[R]{\ACM@linecountR}%
+    \fancyhead[L]{\ACM@linecountL\@acmBadgeL}%
+    \fancyhead[R]{\@acmBadgeR\ACM@linecountR}%
     \fancyfoot[C]{\if@ACM@printfolios\footnotesize\thepage\fi}%
   \fi
   \if@ACM@timestamp
@@ -7879,8 +7943,8 @@
       \raisebox{-\dimexpr(0.25\textheight*\ACM@ArticleType@nr)}{%
       \rotatebox{90}{\colorbox{@ACM@Article@color}{\color{white}%
           \strut\ACM@ArticleType~Article}}}}%
-    \ACM@linecountL}%
-  \fancyhead[R]{\makebox[\z@][r]{\box\@ACM@acmcpbox}}%
+    \ACM@linecountL\@acmBadgeL}%
+  \fancyhead[R]{\@acmBadgeR\makebox[\z@][r]{\box\@ACM@acmcpbox}}%
   \fancyfoot[L,C]{}%
   \fancyfoot[R]{\footnotesize
     \@journalName, Volume~\@acmVolume, Issue~\@acmNumber,

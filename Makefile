@@ -103,7 +103,7 @@ samples/sample-lualatex.pdf:  samples/sample-lualatex.tex   samples/$(PACKAGE).c
 	while ( grep -q '^LaTeX Warning: Label(s) may have changed' $(basename $<).log) \
 	  do cd $(dir $@) && lualatex-dev $(notdir $<); done
 
-
+samples/sample-acmcp.pdf: samples/acm-jdslogo.png
 
 .PRECIOUS:  $(PACKAGE).cfg $(PACKAGE).cls
 
@@ -116,6 +116,7 @@ docclean:
 	samples/$(PACKAGE).cls samples/ACM-Reference-Format.bst \
 	samples/*.log samples/*.aux samples/*.out \
 	samples/*.bbl samples/*.blg samples/*.cut \
+	samples/acm-jdslogo.png \
 	samples/*.run.xml samples/*.bcf $(SAMPLEBIBLATEXFILES)
 
 
