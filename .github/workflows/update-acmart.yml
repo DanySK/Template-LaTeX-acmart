@@ -10,6 +10,8 @@ on:
 jobs:
   update-acmart:
     if: contains(github.repository, 'Template-LaTeX-acmart')
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
