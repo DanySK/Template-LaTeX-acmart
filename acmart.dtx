@@ -1256,8 +1256,16 @@
 % \acmCodeLink{https://github.com/repository/code}
 % \acmDataLink{https://datadryad.org/stash/dataset/doi:DOI}
 % \end{verbatim}
-% You may repeat these commands if you have several repositories. 
+% You may repeat these commands if you have several repositories.
 %
+%
+% \cs{acmContributions}%
+% The command \cs{acmContributions}\marg{contributions} sets the
+% contributions of the authors, for example,
+% \begin{verbatim}
+% \acmContributions{AW designed the study, CD performed it, all
+% authors contributed to the writing.}
+% \end{verbatim}
 %
 % ACM cover page should have the following obligatory sections:
 % \begin{itemize}
@@ -1540,7 +1548,7 @@
 %
 % \DescribeEnv{anonsuppress}%
 % When the option |anonymous| is selected, \TeX\ suppresses author
-% information (including the number of authors) for a blind review.
+% information (including the number of authors) for an anonymous review.
 % However, sometimes the information identifying the authors may be
 % present in the body of the paper.  For example,
 % \begin{verbatim}
@@ -2269,7 +2277,7 @@
 \ProvidesFile{acmart.dtx}
 %</gobble>
 %<class>\ProvidesClass{acmart}
-[2023/03/30 v1.90 Typesetting articles for the Association for Computing Machinery]
+[2023/10/14 v1.92 Typesetting articles for the Association for Computing Machinery]
 %    \end{macrocode}
 %
 % \changes{v1.00}{2016/04/14}{First released version}
@@ -2380,6 +2388,9 @@
 % \changes{1.84}{2022/04/09}{New journals: JDS, GAMES}
 % \changes{1.85}{2022/05/08}{Added CC licenses}
 % \changes{1.87}{2022/08/02}{New format: |acmcp|}
+% \changes{1.90a}{2023/06/11}{Changes in the sample keywords and concepts}
+% \changes{1.92}{2023/09/30}{Documentation update: use of `anonymous'
+% throughout} 
 %
 % And the driver code:
 %    \begin{macrocode}
@@ -3455,16 +3466,9 @@
 %
 %
 %
-% Adding |hyperxmp|
-% \changes{v1.72}{2020/06/14}{Added hyperxmp}
-% \changes{v1.76}{2021/02/21}{Moved hyperxmp before hyperref, see
-% \url{https://github.com/borisveytsman/acmart/issues/425}}
-%    \begin{macrocode}
-\RequirePackage{hyperxmp}
-%    \end{macrocode}
 %
 %
-% And now, |hyperref|
+% Adding |hyperref|
 % \changes{v1.28}{2017/01/07}{Got rid of warnings in pdf keywords}
 % \changes{v1.46}{2017/08/25}{Delayed hypersetup since journal options
 % may change screen mode}
@@ -3472,10 +3476,14 @@
 % \changes{v1.58}{2019/26/01}{Suppressed \cs{addtocounter} in pdf
 % subject}
 % \changes{1.85}{2022/05/08}{Added: acmengage}
+% \changes{v1.76}{2021/02/21}{Moved hyperxmp before hyperref, see
+% \url{https://github.com/borisveytsman/acmart/issues/425}}
+% \changes{1.92}{2023/10/14}{Moved hyperxmp again due to kernel update}
 %    \begin{macrocode}
 \let\@footnotemark@nolink\@footnotemark
 \let\@footnotetext@nolink\@footnotetext
 \RequirePackage[bookmarksnumbered,unicode]{hyperref}
+\RequirePackage{hyperxmp}
 \pdfstringdefDisableCommands{%
   \def\addtocounter#1#2{}%
   \def\unskip{}%
@@ -5581,7 +5589,7 @@
 % 
 % \end{macro}
 %
-% \begin{macro}{\acmCodeLink}
+% \begin{macro}{\acmCodeDataLink}
 % \changes{v1.87}{2022/08/13}{Introduced macro}
 % \changes{v1.87}{2022/08/28}{Added possibility to have several links}
 % The code link
@@ -5595,6 +5603,15 @@
 \def\@acmCodeDataLink{}
 %    \end{macrocode}
 % 
+% \end{macro}
+%
+% \begin{macro}{\acmContributions}
+% \changes{v1.91}{2023/06/22}{Restored the macro}
+% The authors' contrubution statement
+%    \begin{macrocode}
+\def\acmContributions#1{\gdef\@acmContributions{#1}}
+\acmContributions{}
+%    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\acmDataLink}
@@ -6055,8 +6072,7 @@
 %
 % \end{macro}
 %
-%
-%
+%%
 %
 % \begin{macro}{\copyrightyear}
 %   By default, the copyright year is the same as \cs{acmYear}, but
@@ -6108,7 +6124,7 @@
 %
 % \begin{macro}{\anon}
 % \changes{v1.82}{2022/01/11}{Introduced macro}%
-% We provide \cs{anon} command, which blinds parts of the text
+% We provide \cs{anon} command, which obscures parts of the text
 %   if the package option |anonymous| is set
 %    \begin{macrocode}
 \newcommand{\anon}[2][ANONYMIZED]{%
@@ -6121,7 +6137,7 @@
 %
 % \end{macro}
 %
-%
+% 
 %\subsection{Maketitle hook}
 %\label{sec:hook}
 %
@@ -6421,6 +6437,9 @@
     \fi
     \ifx\@keywords\@empty\else\bigskip
       Keywords: \@keywords\par
+    \fi
+    \ifx\@acmContributions\@empty\else\bigskip
+      \@acmContributions\par
     \fi
     \ifx\@empty\@authorsaddresses\else\bigskip\@setauthorsaddresses\fi
     \zsaveposy{@ACM@acmcpbox@y}%
@@ -7657,6 +7676,7 @@
 % nonacm}
 % \changes{v1.86}{2022/06/26}{Special treatment of ACM Engage materials}
 % \changes{v1.87}{2022/08/14}{Special treatment of ACMCP}
+% \changes{v1.91}{2023/06/22}{Redesigned ACMP labels}
 %   The page style for all pages but the first one
 %    \begin{macrocode}
 \AtBeginDocument{%
@@ -7769,7 +7789,7 @@
   \renewcommand{\footrulewidth}{0.1\p@}%
   \fancyheadoffset[L]{46pt}%
   \fancyhead[L]{\makebox[\z@][l]{%
-      \raisebox{-\dimexpr(0.25\textheight*\ACM@ArticleType@nr)}{%
+      \raisebox{-\dimexpr(0.2\textheight*(\ACM@ArticleType@nr-2))}{%
       \rotatebox{90}{\colorbox{@ACM@Article@color}{\color{white}%
           \strut\ACM@ArticleType~Article}}}}%
     \ACM@linecountL}%
@@ -7940,7 +7960,7 @@
   \renewcommand{\footrulewidth}{0.1\p@}%
   \fancyheadoffset[L]{46pt}%
   \fancyhead[L]{\makebox[\z@][l]{%
-      \raisebox{-\dimexpr(0.25\textheight*\ACM@ArticleType@nr)}{%
+      \raisebox{-\dimexpr(0.2\textheight*(\ACM@ArticleType@nr-2))}{%
       \rotatebox{90}{\colorbox{@ACM@Article@color}{\color{white}%
           \strut\ACM@ArticleType~Article}}}}%
     \ACM@linecountL\@acmBadgeL}%
