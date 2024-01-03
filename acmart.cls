@@ -38,7 +38,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{acmart}
-[2023/11/05 v2.00 Typesetting articles for the Association for Computing Machinery]
+[2023/12/29 v2.01 Typesetting articles for the Association for Computing Machinery]
 \def\@classname{acmart}
 \InputIfFileExists{acmart-preload-hook.tex}{%
   \ClassWarning{\@classname}{%
@@ -1642,6 +1642,8 @@
   January\or February\or March\or April\or May\or June\or
   July\or August\or September\or October\or November\or
   December\fi~\@acmYear}
+\def\acmPrice#1{\ClassWarning{\@classname}{The macro \string\acmPrice
+    is obsolete.  ACM no longer prints the price in bibstrip.}}
 \def\acmSubmissionID#1{\def\@acmSubmissionID{#1}}
 \acmSubmissionID{}
 \def\acmISBN#1{\def\@acmISBN{#1}}
