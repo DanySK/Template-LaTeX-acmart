@@ -1,17 +1,17 @@
 %%
-%% This is file `sample-acmsmall.tex',
+%% This is file `sample-acmsmall-tagged.tex',
 %% generated with the docstrip utility.
 %%
 %% The original source files were:
 %%
-%% samples.dtx  (with options: `all,journal,bibtex,acmsmall')
+%% samples.dtx  (with options: `all,journal,acmsmall,tagged')
 %% 
 %% IMPORTANT NOTICE:
 %% 
 %% For the copyright see the source file.
 %% 
 %% Any modified versions of this file must be renamed
-%% with new filenames distinct from sample-acmsmall.tex.
+%% with new filenames distinct from sample-acmsmall-tagged.tex.
 %% 
 %% For distribution of the original source see the terms
 %% for copying and modification in the file samples.dtx.
@@ -33,7 +33,15 @@
 %TC:envir math 0 word
 %TC:envir comment 0 0
 %%
-%%
+%% The tagged file should start with the metadata commands.
+%% We also need currently use lualatex-dev for compilation!
+\ifx\HCode\Undef
+\DocumentMetadata{
+ pdfversion=2.0,pdfstandard=ua-2,
+ testphase={phase-III,firstaid,math,title}}
+\else
+\DocumentMetadata{}
+\fi
 %% The first command in your LaTeX source must be the \documentclass
 %% command.
 %%
@@ -45,8 +53,7 @@
 %% for your publication.
 %%
 %%
-\documentclass[acmsmall]{acmart}
-
+\documentclass[acmsmall]{acmart-tagged}
 %%
 %% \BibTeX command to typeset BibTeX logo in the docs
 \AtBeginDocument{%
@@ -62,7 +69,6 @@
 \copyrightyear{2018}
 \acmYear{2018}
 \acmDOI{XXXXXXX.XXXXXXX}
-
 
 %%
 %% These commands are for a JOURNAL article.
@@ -92,17 +98,6 @@
 %% the biblatex styles.
 %%
 
-%%
-%% The majority of ACM publications use numbered citations and
-%% references.  The command \citestyle{authoryear} switches to the
-%% "author year" style.
-%%
-%% If you are preparing content for an event
-%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
-%% citations and references.
-%% Uncommenting
-%% the next command will enable that style.
-%%\citestyle{acmauthoryear}
 
 
 %%
@@ -129,17 +124,14 @@
 \email{webmaster@marysville-ohio.com}
 \affiliation{%
   \institution{Institute for Clarity in Documentation}
-  \streetaddress{P.O. Box 1212}
   \city{Dublin}
   \state{Ohio}
   \country{USA}
-  \postcode{43017-6221}
 }
 
 \author{Lars Th{\o}rv{\"a}ld}
 \affiliation{%
   \institution{The Th{\o}rv{\"a}ld Group}
-  \streetaddress{1 Th{\o}rv{\"a}ld Circle}
   \city{Hekla}
   \country{Iceland}}
 \email{larst@affiliation.org}
@@ -154,7 +146,6 @@
 \author{Aparna Patel}
 \affiliation{%
  \institution{Rajiv Gandhi University}
- \streetaddress{Rono-Hills}
  \city{Doimukh}
  \state{Arunachal Pradesh}
  \country{India}}
@@ -162,7 +153,6 @@
 \author{Huifen Chan}
 \affiliation{%
   \institution{Tsinghua University}
-  \streetaddress{30 Shuangqing Rd}
   \city{Haidian Qu}
   \state{Beijing Shi}
   \country{China}}
@@ -170,17 +160,14 @@
 \author{Charles Palmer}
 \affiliation{%
   \institution{Palmer Research Laboratories}
-  \streetaddress{8600 Datapoint Drive}
   \city{San Antonio}
   \state{Texas}
-  \country{USA}
-  \postcode{78229}}
+  \country{USA}}
 \email{cpalmer@prl.com}
 
 \author{John Smith}
 \affiliation{%
   \institution{The Th{\o}rv{\"a}ld Group}
-  \streetaddress{1 Th{\o}rv{\"a}ld Circle}
   \city{Hekla}
   \country{Iceland}}
 \email{jsmith@affiliation.org}
@@ -818,4 +805,4 @@ massa et mattis lacinia.
 \end{document}
 \endinput
 %%
-%% End of file `sample-acmsmall.tex'.
+%% End of file `sample-acmsmall-tagged.tex'.
