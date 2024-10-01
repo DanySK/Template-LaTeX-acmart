@@ -23,15 +23,18 @@ jobs:
       - name: Cleanup the repository
         run: rm -rf *
       - name: Download the latest acmart
-        run: curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0" -sL --retry 50 'https://portalparts.acm.org/hippo/latex_templates/acmart-primary.zip' --output acmart.zip
+        run: curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0" -sL --retry 50 'https://mirrors.ctan.org/macros/latex/contrib/acmart.zip' --output acmart.zip
       - name: Unzip the archive
         run: |
           7z x acmart.zip
-          mv acmart-primary/* .
+          mv acmart/* .
       - name: Cleanup the directory
         run: |
-          rm -rf acmart-primary
+          rm -rf acmart
           rm acmart.zip
+      - name: Make the useful targets
+        run: |
+          make acmart.cls samples/acmart.cls samples/ACM-Reference-Format.bst samples/sample-acmcp.tex
           rm samples/sample-acmcp.tex
           git checkout HEAD -- renovate.json
       - name: Configure git
