@@ -38,7 +38,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{acmart-tagged}
-[2024/08/25 v2.09 Typesetting articles for the Association for Computing Machinery]
+[2024/10/19 v2.10 Typesetting articles for the Association for Computing Machinery]
 \def\@classname{acmart-tagged}
 \InputIfFileExists{acmart-preload-hook.tex}{%
   \ClassWarning{\@classname}{%
@@ -844,6 +844,10 @@
   \let\@vspacer\@vspacer@orig}
 \AtBeginEnvironment{listing*}{\let\@vspace\@vspace@orig
   \let\@vspacer\@vspacer@orig}
+\AtBeginEnvironment{lstinputlisting}{\let\@vspace\@vspace@orig
+  \let\@vspacer\@vspacer@orig}
+\AtBeginEnvironment{lstinputlisting*}{\let\@vspace\@vspace@orig
+  \let\@vspacer\@vspacer@orig}
 
 \RequirePackage{caption, float}
 \captionsetup[table]{position=top}
@@ -1603,10 +1607,12 @@
       \stepcounter{footnote}\footnotetext{#1}}%
   \fi}
 \newcommand\authornotemark[1][\relax]{%
-  \ifx#1\relax\relax\relax
-  \g@addto@macro\addresses{\@authornotemark}%
-  \else
-  \g@addto@macro\addresses{\@@authornotemark{#1}}%
+  \if@ACM@anonymous\else
+    \ifx#1\relax\relax\relax
+      \g@addto@macro\addresses{\@authornotemark}%
+    \else
+      \g@addto@macro\addresses{\@@authornotemark{#1}}%
+    \fi
   \fi}
 \def\acmVolume#1{\def\@acmVolume{#1}}
 \acmVolume{1}
@@ -1743,7 +1749,7 @@
   \fi}
 \AtEndDocument{%
   \ifx\@received\@empty\else
-    \par\bigskip\noindent\small\normalfont\@received\par
+    \par\bigskip\noindent{\small\normalfont\@received\par}%
   \fi}
 \define@choicekey+{ACM}{articletype}[\ACM@ArticleType\ACM@ArticleType@nr]{%
   Research,Review,Discussion,Invited,Position}[Review]{%
@@ -1957,7 +1963,7 @@
    Government and is in the public domain. Non-exclusive copying or
    redistribution is allowed, provided that the article citation is
    given and the authors and agency are clearly identified as its
-   source. All others Request permissions from
+   source. Request permissions from
    owner\hspace*{.5pt}/author(s).
   \or % usgovmixed
    ACM acknowledges that this contribution was authored or co-authored
@@ -3244,6 +3250,20 @@
  \def\@subsecfont{\bfseries\Large\section@raggedright}
 \or %acmcp
 \fi
+\AtBeginDocument{%
+  \@for\@tempa:=-1,0,1,2,3,4,5\do{%
+    \@ifundefined{r@tocindent\@tempa}{%
+      \@xp\gdef\csname r@tocindent\@tempa\endcsname{0pt}}{}%
+  }%
+}
+\def\@writetocindents{%
+  \begingroup
+  \@for\@tempa:=-1,0,1,2,3,4,5\do{%
+    \immediate\write\@auxout{%
+      \string\newlabel{tocindent\@tempa}{%
+        \csname r@tocindent\@tempa\endcsname}}%
+  }%
+  \endgroup}
 \def\@adddotafter#1{#1\@addpunct{.}}
 \def\@addspaceafter#1{#1\@addpunct{\enspace}}
 \if@ACM@acmcp

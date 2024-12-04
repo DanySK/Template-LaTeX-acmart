@@ -321,7 +321,7 @@
 %   acmtog   & Large double-column format.  Used for
 %          TOG, including annual conference Technical Papers.\\
 %   sigconf & Proceedings format for most ACM
-%          conferences (with the exception of SIGPlAN) and all ICPS
+%          conferences (with the exception of SIGPLAN) and all ICPS
 %          volumes.\\
 %   sigplan & Proceedings format for SIGPLAN conferences.\\
 %   acmengage & ACM EngageCSEdu Course materials.\\
@@ -874,7 +874,7 @@
 % the output.  For example, if the badge image is |ae-logo.pdf|, the
 % command is
 % \begin{verbatim}
-% \acmBadgeR[http://ctuning.org/ae/ppopp2016.html]{ae-logo}
+% \acmBadge[http://ctuning.org/ae/ppopp2016.html]{ae-logo}
 % \end{verbatim}
 % The command can be repeated, if a paper has several badges.  
 %
@@ -1251,7 +1251,7 @@
 % languages are \emph{secondary,} and used for translated titles,
 % keywords, abstracts.  Thus the paper above is written in English,
 % and has a secondary abstract and a secondary title in French.  On
-% the other hand, a paper in French wih secondary titles and abstracts
+% the other hand, a paper in French with secondary titles and abstracts
 % in English and German should use, for example
 % \begin{verbatim}
 % \documentclass[sigconf,
@@ -1782,10 +1782,10 @@
 %
 %\subsubsection{Processing using Bib\LaTeX}
 % You will find in this package two sets of style files for Bib\LaTeX,
-% \verb|acmnumeric| and \verb|acmauthoryear|, that mimic the behaviour
-% of the ACM-Reference-Format.bst Bib\TeX\ sytle. They provide you
+% \verb|acmnumeric| and \verb|acmauthoryear|, that mimic the behavior
+% of the ACM-Reference-Format.bst Bib\TeX\ style. They provide you
 % access to all the power of Bib\LaTeX\ and already include
-% support for advanced citation of software artefact from the
+% support for advanced citation of software artifacts from the
 % \verb|biblatex-software| package, also separately available on CTAN.
 % Look at the \verb|biblatex-software| documentation to learn more about
 % what it offers.
@@ -1794,7 +1794,10 @@
 % when using Bib\LaTeX\ instead of Bib\TeX, that we summarize briefly
 % here (please refer to the official Bib\LaTeX\ documentation for more details).
 %
-% In the preamble of your document you need to load the Bib\LaTeX\ package
+% First of all, you need to pass the \verb|natbib=false| option to the document class,
+% and remove the \verb|\citestyle{acmauthoryear}| command from the sources (if present).
+%
+% Then, in the preamble of your document you need to load the Bib\LaTeX\ package
 % and select the approriate bibliography style, as follows
 % \begin{verbatim}
 % \RequirePackage[
@@ -1804,7 +1807,7 @@
 % \end{verbatim}
 %
 % Also in the preamble, you need to declare the bibliography sources files
-% using the \verb|\addbibresouce| directe (one \verb|\addbibresource|
+% using the \verb|\addbibresource| command (one \verb|\addbibresource|
 % command per source file), e.g.:
 % \begin{verbatim}
 % \addbibresource{software.bib}
@@ -1955,30 +1958,6 @@
 % The script |texcount| provides a report of word count in the
 % document.
 %
-%
-%\subsection{Creative Commons licenses for ACM publications}
-%\label{sec:ug_cc}
-%
-% At present ACM does not allow the authors to typeset Creative
-% Commons license for most ACM publications.  These licenses can be
-% used under an agreement with the ACM publishing office.  In this
-% case they are inserted by ACM itself.
-%
-% The exceptions are ACM Engage format, which allows Creative Commons
-% license, and conferences organized and copyrighted by IW3C2.  In
-% these cases the authors should use correspondingly
-% |\setcopyright{cc}|, |\setcopyright{iw3c2w3}|, or
-% |\setcopyright{iw3c2w3g}| (the latter should be used by Google
-% employees).
-%
-% Yet another case is the typesetting of non-ACM materials, when the
-% option |nonacm| is used.  This case is somewhat opposite, because
-% for this case \emph{only} Creative Common licenses are supported.
-%
-% The command |\setcopyright{cc}| produces an error unless the format is
-% |acmengage| or |nonacm| option is selected.  On the other hand, if
-% the option |nonacm| is selected, any argument of |\setcopyright|
-% other than |cc| is treated as |none|. 
 %
 %
 %\subsection{Disabled or forbidden commands}
@@ -2277,7 +2256,7 @@
 %</gobble>
 %<class&!tagged>\ProvidesClass{acmart}
 %<tagged>\ProvidesClass{acmart-tagged}
-[2024/08/25 v2.09 Typesetting articles for the Association for Computing Machinery]
+[2024/10/19 v2.10 Typesetting articles for the Association for Computing Machinery]
 %    \end{macrocode}
 %
 % \changes{v1.00}{2016/04/14}{First released version}
@@ -4093,6 +4072,10 @@
   \let\@vspacer\@vspacer@orig}
 \AtBeginEnvironment{listing*}{\let\@vspace\@vspace@orig
   \let\@vspacer\@vspacer@orig}
+\AtBeginEnvironment{lstinputlisting}{\let\@vspace\@vspace@orig
+  \let\@vspacer\@vspacer@orig}
+\AtBeginEnvironment{lstinputlisting*}{\let\@vspace\@vspace@orig
+  \let\@vspacer\@vspacer@orig}
 
 %    \end{macrocode}
 %
@@ -5267,10 +5250,12 @@
 % Adding a footnote mark to the authors
 %    \begin{macrocode}
 \newcommand\authornotemark[1][\relax]{%
-  \ifx#1\relax\relax\relax
-  \g@addto@macro\addresses{\@authornotemark}%
-  \else
-  \g@addto@macro\addresses{\@@authornotemark{#1}}%
+  \if@ACM@anonymous\else
+    \ifx#1\relax\relax\relax
+      \g@addto@macro\addresses{\@authornotemark}%
+    \else
+      \g@addto@macro\addresses{\@@authornotemark{#1}}%
+    \fi
   \fi}
 %    \end{macrocode}
 %
@@ -5685,7 +5670,7 @@
   \fi}
 \AtEndDocument{%
   \ifx\@received\@empty\else
-    \par\bigskip\noindent\small\normalfont\@received\par
+    \par\bigskip\noindent{\small\normalfont\@received\par}%
   \fi}
 %    \end{macrocode}
 %
@@ -6090,7 +6075,7 @@
    Government and is in the public domain. Non-exclusive copying or
    redistribution is allowed, provided that the article citation is
    given and the authors and agency are clearly identified as its
-   source. All others Request permissions from
+   source. Request permissions from
    owner\hspace*{.5pt}/author(s). 
   \or % usgovmixed
    ACM acknowledges that this contribution was authored or co-authored
@@ -8237,8 +8222,8 @@
 % \changes{v1.45}{2017/08/15}{Switched \cs{bfeseries}\cs{sffamily} to
 % \cs{sffamily}\cs{bfseries}}
 % \changes{v1.67}{2020/01/11}{Deleted redefinitions of sections}
-% \changes{1.85}{2022/05/08}{Added: acmengage}
-% \changes{2.08}{2024/05/27}{Deleted uppercasing}
+% \changes{v1.85}{2022/05/08}{Added: acmengage}
+% \changes{v2.08}{2024/05/27}{Deleted uppercasing}
 % Fonts for sections etc. are different for different formats.
 %    \begin{macrocode}
 \def\@secfont{\sffamily\bfseries\section@raggedright}
@@ -8286,6 +8271,27 @@
 % \end{macro}
 % \end{macro}
 % \end{macro}
+%
+% \changes{v2.10}{2024/10/19}{Added tocindent for paragraphs and
+% subparagraphs} 
+% Amasat does not define tocindents for paragraphs and subparagraphs.
+% Here we add them
+%    \begin{macrocode}
+\AtBeginDocument{%
+  \@for\@tempa:=-1,0,1,2,3,4,5\do{%
+    \@ifundefined{r@tocindent\@tempa}{%
+      \@xp\gdef\csname r@tocindent\@tempa\endcsname{0pt}}{}%
+  }%
+}
+\def\@writetocindents{%
+  \begingroup
+  \@for\@tempa:=-1,0,1,2,3,4,5\do{%
+    \immediate\write\@auxout{%
+      \string\newlabel{tocindent\@tempa}{%
+        \csname r@tocindent\@tempa\endcsname}}%
+  }%
+  \endgroup}
+%    \end{macrocode}
 %
 % \begin{macro}{\@adddotafter}
 %   Add punctuation after a sectioning command
