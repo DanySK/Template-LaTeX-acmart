@@ -144,7 +144,7 @@ docclean:
 	samples/$(PACKAGE)-tagged.cls \
 	samples/ACM-Reference-Format.bst \
 	samples/*.log samples/*.aux samples/*.out \
-	samples/*.bbl samples/*.blg samples/*.cut \
+	samples/*.bbl samples/*.blg samples/*.cut *.toc \
 	samples/acm-jdslogo.png \
 	samples/*.run.xml samples/*.bcf $(SAMPLEBIBLATEXFILES)
 

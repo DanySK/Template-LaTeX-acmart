@@ -630,11 +630,8 @@ FUNCTION { output.doi } % UTAH
   doi empty.or.unknown
     { }
     {
-      %% Use \urldef here for the same reason it is used in output.url,
-      %% see output.url for further discussion.
-      "\urldef\tempurl%" writeln
-      "\url{https://doi.org/" strip.doi * "}" * writeln
-      "\showDOI{\tempurl}" writeln
+      "\href{https://doi.org/" strip.doi * "}{doi:\nolinkurl{" *
+      strip.doi  * "}}" * writeln
     }
   if$
 }
@@ -3015,16 +3012,16 @@ FUNCTION { begin.bib }
   "%%% NOTE TO THE USER: you can override these defaults by providing"       writeln
   "%%% customized versions of any of these macros before the \bibliography"  writeln
   "%%% command.  Each of them MUST provide its own final punctuation,"       writeln
-  "%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two"  writeln
+  "%%% except for \shownote{} and \showURL{}.  The latter two"  writeln
   "%%% do not use final punctuation, in order to avoid confusing it with"    writeln
   "%%% the Web address."                                                     writeln
   "%%%"                                                                      writeln
   "%%% To suppress output of a particular field, define its macro to expand" writeln
   "%%% to an empty string, or better, \unskip, like this:"                   writeln
   "%%%"                                                                      writeln
-  "%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax"                   writeln
+  "%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax"                   writeln
   "%%%"                                                                      writeln
-  "%%% \def \showDOI #1{\unskip}           % plain TeX syntax"               writeln
+  "%%% \def \showURL #1{\unskip}           % plain TeX syntax"               writeln
   "%%%"                                                                      writeln
   "%%% ====================================================================" writeln
   ""                                                                         writeln
@@ -3046,7 +3043,6 @@ FUNCTION { begin.bib }
   %%         \newcommand{\showLCCN}[1]{LCCN #1.}
 
   "\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi" writeln
-  "\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi" writeln
   % ACM styles omit ISBNs, but they can be included by suitable definitions of
   % \showISBNx and \showISBNxiii before the .bbl file is read
   "\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi" writeln
