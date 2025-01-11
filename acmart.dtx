@@ -1534,7 +1534,7 @@
 %
 % As for the |printonly| and |screenonly| environments,
 % |\begin{acks}| and |\end{acks}| should start on a
-% line of their own with no leading or trailing spaces.
+% line of their own with no leading or trailing spaces or comments. 
 %
 % \DescribeMacro{\grantsponsor}%
 % \DescribeMacro{\grantnum}%
@@ -1567,7 +1567,7 @@
 %
 %   The authors would also like to thank the anonymous referees for
 %   their valuable comments and helpful suggestions. This work is
-%   supported by the \grantsponsor{GS501100001809}{National Natural
+%   supported by the \grantsponsor{my-grant-GS501100001809}{National Natural
 %   Science Foundation of
 %   China}{https://doi.org/10.13039/501100001809} under Grant
 %   No.:~\grantnum{GS501100001809}{61273304}
@@ -2256,7 +2256,7 @@
 %</gobble>
 %<class&!tagged>\ProvidesClass{acmart}
 %<tagged>\ProvidesClass{acmart-tagged}
-[2024/12/07 v2.11 Typesetting articles for the Association for Computing Machinery]
+[2024/12/28 v2.12 Typesetting articles for the Association for Computing Machinery]
 %    \end{macrocode}
 %
 % \changes{v1.00}{2016/04/14}{First released version}
@@ -2958,9 +2958,10 @@
 %    \end{macrocode}
 %
 % \changes{v1.40}{2017/06/05}{Added `textcase' package}
-% We need |textcase| for better upcasing
+% \changes{v2.12}{2024/12/28}{Removed `textcase' package}
+% We no longer need |textcase| for better upcasing.
 %    \begin{macrocode}
-\RequirePackage{textcase}
+% \RequirePackage{textcase}
 %    \end{macrocode}
 %
 %
@@ -3949,23 +3950,27 @@
 % monotype font declaration}
 % \changes{v1.74}{2020/10/25}{Changed the order of font loading}%
 % We use Libertine throughout.
+% \changes{v2.12}{2024/12/29}{Use unicode-math and libertinus for Unicode engines}%
+% We use Libertine throughout.
 %    \begin{macrocode}
 \if@ACM@newfonts
-  \RequirePackage[T1]{fontenc}
   % Note that the order in which packages are loaded matters,
   % and the correct order depends on the LaTeX engine used.
   % See https://github.com/borisveytsman/acmart/issues/402
   % and https://github.com/borisveytsman/acmart/issues/410
   \ifxetex
-    \RequirePackage[libertine]{newtxmath}
+    \RequirePackage{unicode-math}
+    \setmathfont[Scale=MatchUppercase]{libertinusmath-regular.otf}
     \RequirePackage[tt=false]{libertine}
     \setmonofont[StylisticSet=3]{inconsolata}
   \else
     \ifluatex
-      \RequirePackage[libertine]{newtxmath}
+      \RequirePackage{unicode-math}
+      \setmathfont[Scale=MatchUppercase]{libertinusmath-regular.otf}
       \RequirePackage[tt=false]{libertine}
       \setmonofont[StylisticSet=3]{inconsolata}
     \else
+       \RequirePackage[T1]{fontenc}
        \RequirePackage[tt=false, type1=true]{libertine}
        \RequirePackage[varqu]{zi4}
        \RequirePackage[libertine]{newtxmath}
@@ -5112,7 +5117,7 @@
   \def\position##1{\ignorespaces}%
   \def\institution##1{##1\ignorespaces}%
   \def\department{\@ifnextchar[{\@department}{\@department[]}}%
-  \def\@department[##1]##2{\unskip, ##2\ignorespaces}%
+  \def\@department[##1]##2{##2, \ignorespaces}%
   \let\city\position
   \let\state\position
   \let\country\position
@@ -6437,7 +6442,9 @@
     \if@printcopyright
       \copyright\ \@copyrightyear\ \@copyrightowner\\
     \else
-      \@copyrightyear.\
+      \ifx\@copyrightyear\@empty\else  
+        \@copyrightyear.\
+      \fi
     \fi
     \if@ACM@manuscript
       Manuscript submitted to ACM\\
@@ -6563,6 +6570,7 @@
     \fi
     \ifx\@empty\@authorsaddresses\else\bigskip\@setauthorsaddresses\fi
     \zsaveposy{@ACM@acmcpbox@y}%
+    \par
   }
 \egroup}
 %    \end{macrocode}
@@ -7148,6 +7156,8 @@
 %   This version is used in most journal formats.  Note that \cs{and} between
 %   authors with the same affiliation becomes \verb*| and |:
 % \changes{v1.87}{2022/08/14}{Special treatment for acmcp}
+% \changes{v1.12}{2024/12/28}{Removed MakeTextUppercase due to a bug
+% with new kernel}
 %    \begin{macrocode}
 \def\@mkauthors@i{%
   \def\@currentauthors{}%
@@ -7155,9 +7165,9 @@
   \global\let\and\@typeset@author@line
   \def\@author##1{%
     \ifx\@currentauthors\@empty
-      \gdef\@currentauthors{\@authorfont\MakeTextUppercase{##1}}%
+      \gdef\@currentauthors{\@authorfont\MakeUppercase{##1}}%
     \else
-       \g@addto@macro{\@currentauthors}{\and\MakeTextUppercase{##1}}%
+       \g@addto@macro{\@currentauthors}{\and\MakeUppercase{##1}}%
     \fi
     \gdef\and{}}%
   \def\email##1##2{}%
