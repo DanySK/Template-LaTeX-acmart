@@ -1,1 +1,1 @@
-FROM danysk/manjaro-texlive-ruby:16.0.22
+FROM danysk/manjaro-texlive-ruby:16.0.23
