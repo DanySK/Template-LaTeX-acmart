@@ -297,10 +297,11 @@
 %     \normalfont Value & Meaning\\
 %     \midrule
 %   manuscript & A manuscript. This is the default. \\
-%   acmsmall & Small single-column format.  Used for ACMJCSS, CIE, CSUR,
+%       acmsmall & Small single-column format.  Used for ACMJCSS,
+%            ACMJDS, AILET, CIE, CSUR,
 %            FAC, GAMES, JACM, JATS,  JDIQ, JDS, JEA, JERIC,
 %            JETC, JRC, PACMCGIT, PACMHCI, PACMMOD, PACMNET,
-%            PACMPL, PACMSE, POMACS, TAAS, TACCESS, TACO,
+%            PACMPL, PACMSE, POMACS, TAAS, TACCESS, TACO, TAIS, TAISAP,
 %            TALG, TALLIP (formerly TALIP), TCPS, TDS,
 %            TEAC, TECS, TELO, THRI, TIIS, TIOT, TISSEC, TIST, TKDD, TMIS,
 %            TOCE, TOCHI, TOCL,
@@ -1448,7 +1449,19 @@
 %   \theoremstyle{acmdefinition}
 %   \newtheorem{remark}[theorem]{Remark}}
 % \end{verbatim}
-% 
+%
+% If you use \textsl{cleveref} and share counters between the
+% theorem-like constructs, you need to explicitly tell
+% \textsl{cleveref} the kind of the construct you use, for example,
+% \begin{verbatim}
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+%  % Theorems and lemmas share counters
+% ...
+% \begin{theorem}\label{thm:test} % This is a theorem
+%   ...
+% \begin{lemma}\label[lemma]{test-lemma} % This is a lemma
+% \end{verbatim}
 %
 %\subsection{Online-only and offline-only material}
 %\label{sec:ug_screen}
@@ -2128,6 +2141,8 @@
 % \bottomrule
 %     \endfoot
 %     ACMJCSS &  ACM Journal on Computing and Sustainable Societies \\
+%     ACMJDS &  ACM Journal of Data Science\\
+%     AILET & ACM AI Letters\\
 %     CIE & ACM Computers in Entertainment \\
 %     CSUR & ACM Computing Surveys\\
 %     DLT & Distributed Ledger Technologies: Research and Practice\\
@@ -2158,6 +2173,8 @@
 %     TAAS & ACM Transactions on Autonomous and Adaptive Systems\\
 %     TACCESS & ACM Transactions on Accessible Computing\\
 %     TACO & ACM Transactions on Architecture and Code Optimization \\
+%     TAIS & ACM Transactions on AI for Science\\
+%     TAISAP & ACM Transactions on AI Security and Privacy\\
 %     TALG & ACM Transactions on Algorithms \\
 %     TALLIP & ACM Transactions on Asian and Low-Resource Language
 %     Information Processing\\
@@ -2336,7 +2353,7 @@
 %</gobble>
 %<class&!tagged>\ProvidesClass{acmart}
 %<tagged>\ProvidesClass{acmart-tagged}
-[2025/05/30 v2.14 Typesetting articles for the Association for Computing Machinery]
+[2025/08/21 v2.15 Typesetting articles for the Association for Computing Machinery]
 %    \end{macrocode}
 %
 % \changes{v1.00}{2016/04/14}{First released version}
@@ -4032,14 +4049,13 @@
 % We use Libertine throughout.
 % \changes{v2.12}{2024/12/29}{Use unicode-math and libertinus for Unicode engines}%
 % \changes{v2.13}{2025/01/11}{Added mathcal in unicode mode}%
+% \changes{v2.13}{2025/01/11}{Added mathcal in unicode mode}%
+% \changes{v2.15}{2025/08/21}{Added symbols in unicode mode}%
 % We use Libertine throughout.
 %    \begin{macrocode}
 \if@ACM@newfonts
-  % Note that the order in which packages are loaded matters,
-  % and the correct order depends on the LaTeX engine used.
-  % See https://github.com/borisveytsman/acmart/issues/402
-  % and https://github.com/borisveytsman/acmart/issues/410
   \ifxetex
+    \RequirePackage{amssymb}
     \RequirePackage{unicode-math}
     \setmathfont[Scale=MatchUppercase]{LibertinusMath-Regular.otf}
     \setmathfont{latinmodern-math.otf}[range={cal}]
@@ -4047,6 +4063,7 @@
     \setmonofont[StylisticSet=3]{inconsolata}
   \else
     \ifluatex
+      \RequirePackage{amssymb}
       \RequirePackage{unicode-math}
       \setmathfont[Scale=MatchUppercase]{LibertinusMath-Regular.otf}
       \setmathfont{latinmodern-math.otf}[range={cal}]
@@ -4499,12 +4516,15 @@
 % \changes{2.05}{2024/04/04}{New data for TELO}
 % \changes{2.06}{2024/04/13}{Added eISSN for a number of journals}
 % \changes{2.07}{2024/04/17}{Another change for TELO}
+% \changes{2.15}{2025/08/21}{Added AILET, TAIS, TAISAP, ACMJDS}
 %
 % We use the |xkeyval| interface to define journal titles and the relevant
 % information
 %    \begin{macrocode}
 \define@choicekey*+{ACM}{acmJournal}[\@journalCode\@journalCode@nr]{%
   ACMJCSS,%
+  ACMJDS,%
+  AILET,%
   CIE,%
   CSUR,%
   DGOV,%
@@ -4533,6 +4553,8 @@
   TAAS,%
   TACCESS,%
   TACO,%
+  TAIS,%
+  TAISAP,%
   TALG,%
   TALLIP,%
   TAP,%
@@ -4584,6 +4606,16 @@
   \def\@journalNameShort{ACM J. Comput. Sustain. Soc.}%
   \def\@permissionCodeOne{2834-5533}%
   \def\@permissionCodeTwo{2834-5533}%
+\relax % ACMJCDS
+  \def\@journalName{ACM Journal of Data Science}%
+  \def\@journalNameShort{ACM J. Data Sci.}%
+  \def\@permissionCodeOne{0000-0000}%
+  \def\@permissionCodeTwo{0000-0000}%
+\relax % AILET
+  \def\@journalName{ACM AI Letters}%
+  \def\@journalNameShort{ACM AI Lett.}%
+  \def\@permissionCodeOne{3068-8590}%
+  \def\@permissionCodeTwo{3068-8590}%
 \or % CIE
   \def\@journalName{ACM Computers in Entertainment}%
   \def\@journalNameShort{ACM Comput. Entertain.}%
@@ -4735,6 +4767,16 @@
   \def\@journalNameShort{ACM Trans. Arch. Code Optim.}%
   \def\@permissionCodeOne{1544-3566}%
   \def\@permissionCodeTwo{1544-3973}%
+\or % TAIS
+  \def\@journalName{ACM Transactions on AI for Science}%
+  \def\@journalNameShort{ACM Trans. AI Sci.}%
+  \def\@permissionCodeOne{3066-4438}%
+  \def\@permissionCodeTwo{3066-4438}%
+\or % TAISAP
+  \def\@journalName{ACM Transactions on AI Security and Privacy}%
+  \def\@journalNameShort{ACM Trans. AI Secur. Priv.}%
+  \def\@permissionCodeOne{3068-3564}%
+  \def\@permissionCodeTwo{3068-3564}%
 \or % TALG
   \def\@journalName{ACM Transactions on Algorithms}%
   \def\@journalNameShort{ACM Trans. Algor.}%
@@ -7554,19 +7596,25 @@
 %
 %
 % \begin{macro}{\@authornotemark}
+% \changes{v2.15}{2025/08/16}{Suppressed spurious overfull warning}
 % Adding a footnote mark to authors.  This version adds a ``normal''
-% footnote mark.
+% footnote mark.  Note that since we typeset the author in a box, we
+% get superflous box overfull; to protect against it we increase
+% |\hfuzz| 
 %    \begin{macrocode}
-\def\@authornotemark{\g@addto@macro\@currentauthors{\footnotemark\relax}}
+\def\@authornotemark{\g@addto@macro\@currentauthors{%
+    \advance\hfuzz by 5pt\relax\footnotemark\relax}}
 %    \end{macrocode}
 %
 % \end{macro}
 %
 % \begin{macro}{\@@authornotemark}
 % \changes{v1.39}{2017/05/14}{Added macro}
+% \changes{v2.15}{2025/08/16}{Suppressed spurious overfull warning}
 % Adding a footnote mark to authors with a given number
 %    \begin{macrocode}
-\def\@@authornotemark#1{\g@addto@macro\@currentauthors{\footnotemark[#1]}}
+\def\@@authornotemark#1{\g@addto@macro\@currentauthors{%
+    \advance\hfuzz by 5pt\relax\footnotemark[#1]}}
 %    \end{macrocode}
 %
 % \end{macro}
