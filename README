@@ -12,7 +12,9 @@ The production version is the one on CTAN and ACM sites.
 
 Changes
 
-Version 2.15.  Bug fixes.  Documentation updates
+Version 2.16   Emergency release: fixes a typo in the code.
+
+Version 2.15   Bug fixes.  Documentation updates
 	       New journals: AILET, TAIS, TAISAP, ACMJDS
 
 Version 2.14   Bib style update.  Documentation update.  DLT is now using
